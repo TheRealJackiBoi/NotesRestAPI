@@ -7,6 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -34,6 +35,9 @@ public class User implements Serializable {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roleList = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<NoteGroup> noteGroups = new HashSet<>();
 
     public User(String username, String userPassword) {
         this.username = username;
@@ -66,4 +70,11 @@ public class User implements Serializable {
         roleList.add(userRole);
     }
 
+    public void addNoteGroup(NoteGroup noteGroup) {
+        noteGroups.add(noteGroup);
+    }
+
+    public void removeNoteGroup(NoteGroup noteGroup) {
+        noteGroups.remove(noteGroup);
+    }
 }
