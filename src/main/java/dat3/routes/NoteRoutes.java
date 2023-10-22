@@ -16,9 +16,15 @@ public class NoteRoutes {
                 get("/", noteController::readAll);
                 post("/", noteController::create);
                 path("/:id", () -> {
-                    get("/", noteController::readOne);
+                    get("/", noteController::read);
                     put("/", noteController::update);
                     delete("/", noteController::delete);
+                    path("/notegroup", () -> {
+                        get("/", noteController::readNoteGroup);
+                        path("/:group-id", () -> {
+                            put("/", noteController::updateNoteGroup);
+                        });
+                    });
                 });
             });
 
