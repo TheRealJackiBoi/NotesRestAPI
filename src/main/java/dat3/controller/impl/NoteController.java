@@ -81,24 +81,6 @@ public class NoteController {
         ctx.status(204);
     }
 
-    public void updateNoteGroup(Context ctx) {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        int groupId = Integer.parseInt(ctx.pathParam("group-id"));
-
-        Note note = noteDao.read(Note.class, id);
-        NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, groupId);
-
-        if (note == null || noteGroup == null) {
-            ctx.status(404);
-            return;
-        }
-
-        note.setNoteGroup(noteGroup);
-        note = noteDao.update(note);
-
-        ctx.status(200);
-        ctx.json(note);
-    }
 
     public void readNoteGroup(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));

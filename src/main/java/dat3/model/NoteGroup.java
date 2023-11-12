@@ -25,7 +25,7 @@ public class NoteGroup {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "noteGroup")
+    @OneToMany(mappedBy = "noteGroup", cascade = CascadeType.ALL)
     private Set<Note> notes;
 
     public void setUser(User user) {

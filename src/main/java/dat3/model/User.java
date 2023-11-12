@@ -23,15 +23,15 @@ public class User implements Serializable {
 
     @Id
     @Basic(optional = false)
-    @Column(name = "user_name", length = 25)
-    private String username;
+    @Column(name = "user_email", length = 25)
+    private String userEmail;
 
     @Basic(optional = false)
     @Column(name = "user_password", length = 255, nullable = false)
     private String userPassword;
 
     @JoinTable(name = "user_roles", joinColumns = {
-            @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+            @JoinColumn(name = "user_email", referencedColumnName = "user_email")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roleList = new LinkedHashSet<>();
@@ -39,8 +39,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<NoteGroup> noteGroups = new HashSet<>();
 
-    public User(String username, String userPassword) {
-        this.username = username;
+    public User(String userEmail, String userPassword) {
+        this.userEmail = userEmail;
         this.userPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt());
     }
 
@@ -62,8 +62,8 @@ public class User implements Serializable {
         this.userPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt());
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public void addRole(Role userRole) {

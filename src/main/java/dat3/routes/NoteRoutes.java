@@ -12,7 +12,7 @@ public class NoteRoutes {
     protected EndpointGroup getRoutes() {
 
         return () -> {
-            path("/notes", () -> {
+            path("/", () -> {
                 get("/", noteController::readAll);
                 post("/", noteController::create);
                 path("/:id", () -> {
@@ -21,9 +21,6 @@ public class NoteRoutes {
                     delete("/", noteController::delete);
                     path("/notegroup", () -> {
                         get("/", noteController::readNoteGroup);
-                        path("/:group-id", () -> {
-                            put("/", noteController::updateNoteGroup);
-                        });
                     });
                 });
             });

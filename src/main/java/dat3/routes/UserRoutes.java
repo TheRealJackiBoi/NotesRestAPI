@@ -10,12 +10,18 @@ import static io.javalin.apibuilder.ApiBuilder.post;
 public class UserRoutes {
     private final UserController userController = new UserController();
 
+    private final NoteGroupRoutes noteGroupRoutes = new NoteGroupRoutes();
     protected EndpointGroup getRoutes() {
 
         return () -> {
             path("/auth", () -> {
                 post("/login", userController::login, RouteRoles.ANYONE);
                 post("/register", userController::register, RouteRoles.ANYONE);
+            });
+            path("/users", () -> {
+                path("/{user_id}", () -> {
+                    path("/note_groups", noteGroupRoutes.getRoutes());
+                });
             });
         };
     }
