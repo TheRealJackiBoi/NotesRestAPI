@@ -3,7 +3,7 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "user_email": "admin",
   "password": "admin",
   "role": "admin"
 }
@@ -15,7 +15,7 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
-  "username": "user",
+  "user_email": "user",
   "password": "user",
   "role": "user"
 }
@@ -25,7 +25,7 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
-  "username": "manager",
+  "user_email": "manager",
   "password": "manager",
   "role": "manager"
 }
@@ -37,7 +37,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "user_email": "admin",
   "password": "admin"
 }
 
@@ -48,7 +48,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "user",
+  "user_email": "user",
   "password": "user"
 }
 > {% client.global.set("token", response.body.token); %}
@@ -59,7 +59,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "manager",
+  "user_email": "manager",
   "password": "manager"
 }
 

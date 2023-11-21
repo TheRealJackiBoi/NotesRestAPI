@@ -1,5 +1,6 @@
 package dat3.model;
 
+import dat3.dto.NoteDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,12 @@ public class Note {
 
     @ManyToOne
     private NoteGroup noteGroup;
+
+    public Note(NoteDto dto) {
+        this.content = dto.getContent();
+        this.dueDate = dto.getDueDate();
+        this.status = Status.valueOf(dto.getStatus());
+    }
 
     public void setNoteGroup(NoteGroup noteGroup) {
         this.noteGroup = noteGroup;

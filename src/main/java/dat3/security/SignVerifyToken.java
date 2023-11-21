@@ -22,17 +22,17 @@ public class SignVerifyToken {
         this.SECRET_KEY = SECRET_KEY;
     }
 
-    public String signToken(String userName, String rolesAsString, Date date) throws JOSEException {
-        JWTClaimsSet claims = createClaims(userName, rolesAsString, date);
+    public String signToken(String userEmail, String rolesAsString, Date date) throws JOSEException {
+        JWTClaimsSet claims = createClaims(userEmail, rolesAsString, date);
         JWSObject jwsObject = createHeaderAndPayload(claims);
         return signTokenWithSecretKey(jwsObject);
     }
 
-    private JWTClaimsSet createClaims(String username, String rolesAsString, Date date) {
+    private JWTClaimsSet createClaims(String userEmail, String rolesAsString, Date date) {
         return new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(userEmail)
                 .issuer(ISSUER)
-                .claim("username", username)
+                .claim("user_email", userEmail)
                 .claim("roles", rolesAsString)
                 .expirationTime(new Date(date.getTime() + Integer.parseInt(TOKEN_EXPIRE_TIME)))
                 .build();
@@ -67,11 +67,11 @@ public class SignVerifyToken {
         if (new Date().after(claimsSet.getExpirationTime()))
             throw new AuthorizationException(401, "Token is expired");
 
-        String username = claimsSet.getClaim("username").toString();
+        String userEmail = claimsSet.getClaim("user_email").toString();
         String roles = claimsSet.getClaim("roles").toString();
         String[] rolesArray = roles.split(",");
 
-        return new UserDTO(username, rolesArray);
+        return new UserDTO(userEmail, rolesArray);
     }
 
 }

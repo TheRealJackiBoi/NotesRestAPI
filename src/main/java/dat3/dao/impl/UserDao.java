@@ -19,11 +19,11 @@ public class UserDao extends CRUDDao<User, String> {
         return instance;
     }
 
-    public User getVerifiedUser(String username, String password) throws AuthorizationException {
+    public User getVerifiedUser(String userEmail, String password) throws AuthorizationException {
 
         try (EntityManager em = getEmf().createEntityManager()) {
             em.getTransaction().begin();
-            User user = em.find(User.class, username);
+            User user = em.find(User.class, userEmail);
 
             if (user == null || !user.verifyPassword(password)) {
                 throw new AuthorizationException(401, "Invalid user name or password");
@@ -33,12 +33,12 @@ public class UserDao extends CRUDDao<User, String> {
         }
     }
 
-    public User registerUser(String username, String password, String user_role) throws AuthorizationException {
+    public User registerUser(String userEmail, String password, String user_role) throws AuthorizationException {
 
         try (EntityManager em = getEmf().createEntityManager()) {
             em.getTransaction().begin();
 
-            User user = new User(username, password);
+            User user = new User(userEmail, password);
             Role role = em.find(Role.class, user_role);
 
             if (role == null) {
@@ -50,7 +50,7 @@ public class UserDao extends CRUDDao<User, String> {
             em.getTransaction().commit();
             return user;
         } catch (Exception e) {
-            throw new AuthorizationException(400, "Username already exists");
+            throw new AuthorizationException(400, "User with email already exists");
         }
     }
 

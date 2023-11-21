@@ -151,4 +151,23 @@ public class NoteGroupController {
         ctx.status(200);
         ctx.json(NoteDto.toNoteDtoList(notes));
     }
+
+    public void createNoteInNoteGroup(Context ctx) throws ApiException {
+        int noteGroupId = Integer.parseInt(ctx.pathParam("id"));
+        NoteDto noteDto = ctx.bodyAsClass(NoteDto.class);
+        NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, noteGroupId);
+        if (noteGroup == null) {
+            ctx.status(404);
+            throw new ApiException(404, "Could not find note group with id " + noteGroupId);
+        }
+        Note note = new Note(noteDto);
+        note.setNoteGroup(noteGroup);
+        note = noteDao.create(note);
+        if (note == null) {
+            ctx.status(500);
+            throw new ApiException(500, "Could not create note");
+        }
+        ctx.status(201);
+        ctx.json(new NoteDto(note));
+    }
 }

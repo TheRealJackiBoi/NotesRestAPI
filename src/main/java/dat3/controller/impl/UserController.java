@@ -43,10 +43,10 @@ public class UserController {
         ctx.result(createResponse(userInfos[0], token));
     }
 
-    private String createResponse(String username, String token) {
+    private String createResponse(String userEmail, String token) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseJson = mapper.createObjectNode();
-        responseJson.put("username", username);
+        responseJson.put("user_email", userEmail);
         responseJson.put("token", token);
         return responseJson.toString();
     }
@@ -56,11 +56,11 @@ public class UserController {
         return tokenFactory.parseJsonObject(request, tryLogin);
     }
 
-    private User getVerfiedOrRegisterUser(String username, String password, String role, boolean isCreate) throws AuthorizationException {
-        return isCreate ? userDao.registerUser(username, password, role) : userDao.getVerifiedUser(username, password);
+    private User getVerfiedOrRegisterUser(String userEmail, String password, String role, boolean isCreate) throws AuthorizationException {
+        return isCreate ? userDao.registerUser(userEmail, password, role) : userDao.getVerifiedUser(userEmail, password);
     }
 
-    private String getToken(String username, Set<String> userRoles) throws ApiException {
-        return tokenFactory.createToken(username, userRoles);
+    private String getToken(String userEmail, Set<String> userRoles) throws ApiException {
+        return tokenFactory.createToken(userEmail, userRoles);
     }
 }

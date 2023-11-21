@@ -16,7 +16,7 @@ public class NoteGroupRoutes {
             path("/", () -> {
                 get("/", noteGroupController::readAll);
                 post("/", noteGroupController::create);
-                path("/:id", () -> {
+                path("/{id}", () -> {
                     get("/", noteGroupController::read);
                     put("/", noteGroupController::update);
                     delete("/", noteGroupController::delete);
@@ -24,6 +24,7 @@ public class NoteGroupRoutes {
                         get("/", noteGroupController::readAllNotesInNoteGroup);
                         put("/{note_id}", noteGroupController::addNoteToNoteGroup);
                         delete("/{note_id}", noteGroupController::removeNoteFromNoteGroup);
+                        post("/", noteGroupController::createNoteInNoteGroup);
                     });
                 });
             });

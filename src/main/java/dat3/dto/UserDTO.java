@@ -15,20 +15,27 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDTO {
 
-    private String username;
+    private String userEmail;
     private Set<String> roles;
     private List<NoteGroupDto> noteGroups;
 
-    public UserDTO(String username, String[] roles, List<NoteGroupDto> noteGroups) {
-        this.username = username;
+    public UserDTO(String userEmail, String[] roles, List<NoteGroupDto> noteGroups) {
+        this.userEmail = userEmail;
         this.roles = Set.of(roles);
         this.noteGroups = noteGroups;
     }
 
     public UserDTO(User user) {
-        this.username = user.getUserEmail();
+        this.userEmail = user.getUserEmail();
         this.roles = user.getRolesAsStrings();
         this.noteGroups = NoteGroupDto.toNoteGroupDtoList(user.getNoteGroups().stream().toList());
+    }
+
+    public UserDTO(String userEmail, String[] roles) {
+
+        this.userEmail = userEmail;
+        this.roles = Set.of(roles);
+
     }
 
     public static List<UserDTO> toUserDTOList(List<User> users) {

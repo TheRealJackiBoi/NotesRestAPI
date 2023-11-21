@@ -62,7 +62,7 @@ public class TokenFactory {
 
             ObjectMapper mapper = new ObjectMapper();
             Map json = mapper.readValue(jsonString, Map.class);
-            String username = json.get("username").toString();
+            String userEmail = json.get("user_email").toString();
             String password = json.get("password").toString();
             String role = "";
 
@@ -71,14 +71,14 @@ public class TokenFactory {
                 if (!roles.contains(role)) throw new ApiException(400, "Role not valid");
             }
 
-            return new String[]{username, password, role};
+            return new String[]{userEmail, password, role};
 
         } catch (JsonProcessingException | NullPointerException e) {
             throw new ApiException(400, "Malformed JSON Supplied");
         }
     }
 
-    public String createToken(String userName, Set<String> roles) throws ApiException {
+    public String createToken(String userEmail, Set<String> roles) throws ApiException {
 
         try {
             StringBuilder res = new StringBuilder();
@@ -90,7 +90,7 @@ public class TokenFactory {
             String rolesAsString = !res.isEmpty() ? res.substring(0, res.length() - 1) : "";
 
             Date date = new Date();
-            return signature.signToken(userName, rolesAsString, date);
+            return signature.signToken(userEmail, rolesAsString, date);
         } catch (JOSEException e) {
             throw new ApiException(500, "Could not create token");
         }

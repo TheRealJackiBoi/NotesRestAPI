@@ -1,10 +1,16 @@
 package dat3.dto;
 
 import dat3.model.Note;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class NoteDto {
 
     private int id;
@@ -12,14 +18,6 @@ public class NoteDto {
     private LocalDate dueDate;
     private String status;
     private int noteGroupId;
-
-    public NoteDto(int id, String content, LocalDate dueDate, String status, int noteGroupId) {
-        this.id = id;
-        this.content = content;
-        this.dueDate = dueDate;
-        this.status = status;
-        this.noteGroupId = noteGroupId;
-    }
 
     public NoteDto(Note note) {
         this.id = note.getId();
