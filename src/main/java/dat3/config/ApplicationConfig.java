@@ -5,6 +5,7 @@ import dat3.routes.Routes;
 import dat3.security.RouteRoles;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
+import io.javalin.plugin.bundled.CorsPlugin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -21,10 +22,24 @@ public class ApplicationConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfig.class);
 
     private static void configuration(JavalinConfig config) {
-        config.routing.contextPath = "/api/v1"; // base path for all routes
+
+    /*
+        corsHandler.allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .exposedHeaders("*")
+*/
+
+        config.routing.contextPath = "/api/"; // base path for all routes
         config.http.defaultContentType = "application/json"; // default content type for requests
         config.plugins.register(new RouteOverviewPlugin("/", RouteRoles.ANYONE)); // enables route overview at /
         config.accessManager(ACCESS_MANAGER_HANDLER::accessManagerHandler);
+        config.plugins.enableCors(cors -> {
+            cors.add(it -> {
+                it.allowHost("http://localhost:5173");
+                it.allowCredentials = true;
+                it.exposeHeader("*");
+            });
+        });
     }
 
     public static void startServer(Javalin app, int port) {
