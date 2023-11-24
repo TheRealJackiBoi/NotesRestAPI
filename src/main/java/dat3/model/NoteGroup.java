@@ -26,7 +26,7 @@ public class NoteGroup {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToMany(mappedBy = "noteGroup", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "noteGroup", fetch = FetchType.EAGER)
     private Set<Note> notes = new HashSet<>();
 
     public void setUser(User user) {

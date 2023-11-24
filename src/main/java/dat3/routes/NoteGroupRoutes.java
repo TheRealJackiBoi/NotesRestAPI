@@ -15,17 +15,17 @@ public class NoteGroupRoutes {
 
         return () -> {
             path("/", () -> {
-                get("/", noteGroupController::readAllByUserId, RouteRoles.ANYONE);
-                post("/", noteGroupController::create, RouteRoles.ANYONE);
+                get("/", noteGroupController::readAllByUserId, RouteRoles.USER, RouteRoles.ADMIN);
+                post("/", noteGroupController::create, RouteRoles.USER, RouteRoles.ADMIN);
                 path("/{id}", () -> {
-                    get("/", noteGroupController::read);
-                    put("/", noteGroupController::update);
-                    delete("/", noteGroupController::delete);
+                    get("/", noteGroupController::read, RouteRoles.USER, RouteRoles.ADMIN);
+                    put("/", noteGroupController::update, RouteRoles.USER, RouteRoles.ADMIN);
+                    delete("/", noteGroupController::delete, RouteRoles.USER, RouteRoles.ADMIN);
                     path("/notes", () -> {
-                        get("/", noteGroupController::readAllNotesInNoteGroup);
-                        put("/{note_id}", noteGroupController::addNoteToNoteGroup);
-                        delete("/{note_id}", noteGroupController::removeNoteFromNoteGroup);
-                        post("/", noteGroupController::createNoteInNoteGroup);
+                        get("/", noteGroupController::readAllNotesInNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
+                        put("/{note_id}", noteGroupController::addNoteToNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
+                        delete("/{note_id}", noteGroupController::removeNoteFromNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
+                        post("/", noteGroupController::createNoteInNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
                     });
                 });
             });

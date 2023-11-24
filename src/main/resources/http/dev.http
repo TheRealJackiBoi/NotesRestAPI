@@ -14,6 +14,9 @@ Content-Type: application/json
 }
 
 
+### DELETE NoteGroup for jslam
+DELETE {{url}}/users/jslam@oulund.dk/note_groups/3
+authorization: Bearer {{token}}
 
 
 ### GET User NoteGroups

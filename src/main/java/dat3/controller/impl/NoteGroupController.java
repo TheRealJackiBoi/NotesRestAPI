@@ -104,6 +104,12 @@ public class NoteGroupController {
             ctx.status(404);
             throw new ApiException(404, "Could not find note group with id " + id);
         }
+        noteGroup.removeuser(noteGroup.getUser());
+        noteGroup.getNotes().forEach(note -> {
+                note.removeNoteGroup(noteGroup);
+                noteDao.delete(Note.class, note.getId());
+        });
+        noteGroupDao.update(noteGroup);
         noteGroupDao.delete(NoteGroup.class, id);
         ctx.status(200);
         ctx.json(new Message(200, "Note group with id " + id + " was deleted"));
