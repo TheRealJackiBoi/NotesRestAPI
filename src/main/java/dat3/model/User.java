@@ -1,5 +1,8 @@
 package dat3.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +19,7 @@ import java.util.Set;
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User"))
 @Getter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userEmail")
 public class User implements Serializable {
 
     @Serial
@@ -34,9 +38,10 @@ public class User implements Serializable {
             @JoinColumn(name = "user_email", referencedColumnName = "user_email")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roleList = new LinkedHashSet<>();
+    @JsonManagedReference
+    private Set<Role> roleList = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<NoteGroup> noteGroups = new HashSet<>();
 
     public User(String userEmail, String userPassword) {

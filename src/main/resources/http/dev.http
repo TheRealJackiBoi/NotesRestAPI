@@ -1,0 +1,29 @@
+### GET jslam NoteGroups
+GET {{url}}/users/jslam@oulund.dk/note_groups
+authorization: Bearer {{token}}
+
+
+### Post NoteGroups for jslam
+
+POST {{url}}/users/jslam@oulund.dk/note_groups
+authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "test"
+}
+
+
+### GET User NoteGroups
+GET {{url}}/users/user/note_groups
+authorization: Bearer {{token}}
+
+### Post NoteGroups for user
+
+POST {{url}}/users/user/note_groups
+authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "hej"
+}

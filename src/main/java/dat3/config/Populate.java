@@ -10,7 +10,7 @@ public class Populate {
     public static void main(String[] args) {
         UserDao userDao = UserDao.getInstance(HibernateConfig.getEntityManagerFactory());
 
-        User user = new User("jslam@oulund.dk", "hej1234");
+        User user = new User("email@goo.com", "pw");
 
 
         Role userRole = userDao.createRole("user");

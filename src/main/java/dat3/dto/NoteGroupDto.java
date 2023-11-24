@@ -1,9 +1,14 @@
 package dat3.dto;
 
 import dat3.model.NoteGroup;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
 public class NoteGroupDto {
 
     private int id;

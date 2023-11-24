@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GeneratedColumn;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,11 +23,11 @@ public class NoteGroup {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToMany(mappedBy = "noteGroup", cascade = CascadeType.ALL)
-    private Set<Note> notes;
+    @OneToMany(mappedBy = "noteGroup", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Note> notes = new HashSet<>();
 
     public void setUser(User user) {
         this.user = user;

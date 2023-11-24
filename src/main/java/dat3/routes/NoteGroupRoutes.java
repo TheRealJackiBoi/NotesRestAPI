@@ -2,6 +2,7 @@ package dat3.routes;
 
 import dat3.controller.impl.NoteController;
 import dat3.controller.impl.NoteGroupController;
+import dat3.security.RouteRoles;
 import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -14,8 +15,8 @@ public class NoteGroupRoutes {
 
         return () -> {
             path("/", () -> {
-                get("/", noteGroupController::readAll);
-                post("/", noteGroupController::create);
+                get("/", noteGroupController::readAllByUserId, RouteRoles.ANYONE);
+                post("/", noteGroupController::create, RouteRoles.ANYONE);
                 path("/{id}", () -> {
                     get("/", noteGroupController::read);
                     put("/", noteGroupController::update);

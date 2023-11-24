@@ -1,5 +1,7 @@
 package dat3.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.Objects;
 @NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE from Role"))
 @Getter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "roleName")
 public class Role implements Serializable {
 
     @Serial
@@ -25,6 +28,7 @@ public class Role implements Serializable {
     private String roleName;
 
     @ManyToMany(mappedBy = "roleList")
+    @JsonBackReference
     private List<User> userList;
 
     public Role(String roleName) {

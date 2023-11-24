@@ -3,7 +3,10 @@ package dat3.dao.impl;
 import dat3.dao.CRUDDao;
 import dat3.model.Note;
 import dat3.model.NoteGroup;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+
+import java.util.List;
 
 public class NoteGroupDao extends CRUDDao<NoteGroup, Integer> {
 
@@ -16,4 +19,5 @@ public class NoteGroupDao extends CRUDDao<NoteGroup, Integer> {
         }
         return instance;
     }
+
 }

@@ -38,7 +38,15 @@ public class NoteGroupController {
         ctx.status(200);
         ctx.json(noteGroups);
     }
-
+    public void readAllByUserId(Context ctx) throws ApiException {
+        List<NoteGroup> noteGroups = noteGroupDao.readAll(NoteGroup.class).stream().filter(ng -> ng.getUser().getUserEmail().equals(ctx.pathParam("user_id"))).toList();
+        if (noteGroups == null) {
+            ctx.status(404);
+            throw new ApiException(404, "Could not find any note groups");
+        }
+        ctx.status(200);
+        ctx.json(NoteGroupDto.toNoteGroupDtoList(noteGroups));
+    }
     public void read(Context ctx) throws ApiException {
         int id = Integer.parseInt(ctx.pathParam("id"));
         NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, id);
@@ -51,18 +59,14 @@ public class NoteGroupController {
     }
 
     public void create(Context ctx) throws ApiException {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        String userId = ctx.pathParam("user_id");
+        String userEmail = ctx.pathParam("user_id");
         NoteGroup noteGroup = ctx.bodyAsClass(NoteGroup.class);
-        if (noteGroupDao.read(NoteGroup.class, id) != null) {
-            ctx.status(403);
-            throw new ApiException(403, "Could not create note group");
-        }
-        User user = userDao.read(User.class, userId);
+
+        User user = userDao.read(User.class, userEmail);
         if (user == null) {
             ctx.status(404);
             throw new ApiException(404, "Could not find user with id "
-                    + userId
+                    + userEmail
                     + " when trying to create note group");
         }
         noteGroup.setUser(user);
