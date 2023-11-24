@@ -19,6 +19,23 @@ DELETE {{url}}/users/jslam@oulund.dk/note_groups/3
 authorization: Bearer {{token}}
 
 
+### POST Create Note for notegroup jslam
+POST {{url}}/users/jslam@oulund.dk/note_groups/1/notes
+authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "content": "Note 1 content"
+}
+
+### DELETE Note for notegroup jslam
+DELETE {{url}}/users/jslam@oulund.dk/note_groups/1/notes/1
+authorization: Bearer {{token}}
+
+
+
+
+
 ### GET User NoteGroups
 GET {{url}}/users/user/note_groups
 authorization: Bearer {{token}}

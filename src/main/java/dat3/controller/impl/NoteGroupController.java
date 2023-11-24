@@ -135,20 +135,23 @@ public class NoteGroupController {
     }
 
     public void removeNoteFromNoteGroup(Context ctx) throws ApiException {
+        String userEmail = ctx.pathParam("user_id");
         int id = Integer.parseInt(ctx.pathParam("id"));
-        int noteId = Integer.parseInt(ctx.pathParam("noteId"));
+        int noteId = Integer.parseInt(ctx.pathParam("note_id"));
         NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, id);
         Note note = noteDao.read(Note.class, noteId);
-        if (noteGroup == null) {
+        if (noteGroup == null || !noteGroup.getUser().getUserEmail().equals(userEmail)) {
             ctx.status(404);
-            throw new ApiException(404, "Could not find note group with id " + id);
+            throw new ApiException(404, "Could not find note group with id " + id + " or matching user " + userEmail);
         }
         else if (note == null) {
             ctx.status(404);
             throw new ApiException(404, "Could not find note with id " + noteId);
         }
         note.removeNoteGroup(noteGroup);
+        noteDao.update(note);
         noteGroupDao.update(noteGroup);
+        noteDao.delete(Note.class, noteId);
         ctx.status(200);
         ctx.json(new NoteGroupDto(noteGroup));
     }
@@ -166,13 +169,16 @@ public class NoteGroupController {
 
     public void createNoteInNoteGroup(Context ctx) throws ApiException {
         int noteGroupId = Integer.parseInt(ctx.pathParam("id"));
+        String userEmail = ctx.pathParam("user_id");
         NoteDto noteDto = ctx.bodyAsClass(NoteDto.class);
         NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, noteGroupId);
-        if (noteGroup == null) {
+        if (noteGroup == null || !noteGroup.getUser().getUserEmail().equals(userEmail)) {
             ctx.status(404);
-            throw new ApiException(404, "Could not find note group with id " + noteGroupId);
+            throw new ApiException(404, "Could not find note group with id " + noteGroupId + " or a matching user");
         }
-        Note note = new Note(noteDto);
+        Note note = new Note();
+        note.setContent(noteDto.getContent());
+        note.setStatus(Note.Status.TODO);
         note.setNoteGroup(noteGroup);
         note = noteDao.create(note);
         if (note == null) {
