@@ -39,6 +39,10 @@ public class NoteGroup {
         user.removeNoteGroup(this);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addNote (Note note) {
         notes.add(note);
     }

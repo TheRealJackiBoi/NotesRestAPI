@@ -60,7 +60,7 @@ public class NoteGroupController {
 
     public void create(Context ctx) throws ApiException {
         String userEmail = ctx.pathParam("user_id");
-        NoteGroup noteGroup = ctx.bodyAsClass(NoteGroup.class);
+        NoteGroupDto noteGroupDto = ctx.bodyAsClass(NoteGroupDto.class);
 
         User user = userDao.read(User.class, userEmail);
         if (user == null) {
@@ -69,6 +69,8 @@ public class NoteGroupController {
                     + userEmail
                     + " when trying to create note group");
         }
+        NoteGroup noteGroup = new NoteGroup();
+        noteGroup.setName(noteGroupDto.getName());
         noteGroup.setUser(user);
         noteGroup = noteGroupDao.create(noteGroup);
         if (noteGroup == null) {

@@ -10,8 +10,10 @@ authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "name": "test"
+    "name": "ToDo"
 }
+
+
 
 
 ### GET User NoteGroups
@@ -25,5 +27,5 @@ authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "hej"
+  "name": "ToDo"
 }
