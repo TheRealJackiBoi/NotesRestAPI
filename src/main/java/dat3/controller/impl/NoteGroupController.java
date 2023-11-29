@@ -117,7 +117,7 @@ public class NoteGroupController {
 
     public void addNoteToNoteGroup(Context ctx) throws ApiException {
         int id = Integer.parseInt(ctx.pathParam("id"));
-        int noteId = Integer.parseInt(ctx.pathParam("noteId"));
+        int noteId = Integer.parseInt(ctx.pathParam("note_id"));
         NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, id);
         Note note = noteDao.read(Note.class, noteId);
         if (noteGroup == null) {
@@ -187,5 +187,26 @@ public class NoteGroupController {
         }
         ctx.status(201);
         ctx.json(new NoteDto(note));
+    }
+
+    public void updateNoteInNoteGroup(Context ctx) throws ApiException {
+        int noteGroupId = Integer.parseInt(ctx.pathParam("id"));
+        String userEmail = ctx.pathParam("user_id");
+        int noteId = Integer.parseInt(ctx.pathParam("note_id"));
+        NoteDto note = ctx.bodyAsClass(NoteDto.class);
+        Note noteToUpdate = noteDao.read(Note.class, noteId);
+        if (noteToUpdate == null) {
+            ctx.status(404);
+            throw new ApiException(404, "Could not find note with id " + noteId);
+        }
+        noteToUpdate.setContent(note.getContent());
+        noteToUpdate.setDueDate(note.getDueDate());
+        noteToUpdate.setStatus(Note.Status.valueOf(note.getStatus()));
+        noteToUpdate = noteDao.update(noteToUpdate);
+        if (noteToUpdate == null) {
+            throw new ApiException(500, "Could not update note");
+        }
+        ctx.status(200);
+        ctx.json(new NoteDto(noteToUpdate));
     }
 }
