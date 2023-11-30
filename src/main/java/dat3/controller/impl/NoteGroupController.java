@@ -15,6 +15,7 @@ import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
+import java.util.Set;
 
 public class NoteGroupController {
 
@@ -208,5 +209,18 @@ public class NoteGroupController {
         }
         ctx.status(200);
         ctx.json(new NoteDto(noteToUpdate));
+    }
+
+    public void removeAllNotesFromNoteGroup(Context ctx) {
+        int id = Integer.parseInt(ctx.pathParam("id"));
+        NoteGroup noteGroup = noteGroupDao.read(NoteGroup.class, id);
+        Set<Note> notes = noteGroup.getNotes();
+        noteGroup.removeAllNotes();
+        notes.forEach(note -> {
+            noteDao.delete(Note.class, note.getId());
+        });
+        noteGroupDao.update(noteGroup);
+        ctx.status(200);
+        ctx.json(new Message(200, "All notes in note group with id " + id + " was deleted"));
     }
 }

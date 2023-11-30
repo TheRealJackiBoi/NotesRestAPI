@@ -50,4 +50,9 @@ public class NoteGroup {
     public void removeNote (Note note) {
         notes.remove(note);
     }
+
+    public void removeAllNotes () {
+        notes.forEach(Note::removeNoteGroup);
+        notes.clear();
+    }
 }

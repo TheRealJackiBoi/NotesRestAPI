@@ -48,6 +48,10 @@ public class Note {
         noteGroup.removeNote(this);
     }
 
+    public void removeNoteGroup() {
+        this.noteGroup = null;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }

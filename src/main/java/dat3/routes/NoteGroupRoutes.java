@@ -23,6 +23,7 @@ public class NoteGroupRoutes {
                     delete("/", noteGroupController::delete, RouteRoles.USER, RouteRoles.ADMIN);
                     path("/notes", () -> {
                         get("/", noteGroupController::readAllNotesInNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
+                        delete("/", noteGroupController::removeAllNotesFromNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
                         put("/{note_id}", noteGroupController::updateNoteInNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
                         delete("/{note_id}", noteGroupController::removeNoteFromNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
                         post("/", noteGroupController::createNoteInNoteGroup, RouteRoles.USER, RouteRoles.ADMIN);
