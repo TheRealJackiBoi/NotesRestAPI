@@ -35,7 +35,7 @@ public class ApplicationConfig {
         config.accessManager(ACCESS_MANAGER_HANDLER::accessManagerHandler);
         config.plugins.enableCors(cors -> {
             cors.add(it -> {
-                it.allowHost("http://localhost:3000");
+                it.allowHost("http://localhost:3000", "https://notes.cudia.dk/");
                 it.allowCredentials = true;
                 it.exposeHeader("*");
             });
